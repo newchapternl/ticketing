@@ -1,0 +1,64 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: newchapter/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+        noCache: true
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: newchapter/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+        noCache: true
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
+    - image: newchapter/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+        noCache: true
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: newchapter/orders
+      context: orders
+      docker:
+        dockerfile: Dockerfile
+        noCache: true
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: newchapter/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+        noCache: true
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: newchapter/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+        noCache: true
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
